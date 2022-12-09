@@ -1,0 +1,110 @@
+﻿@{
+    var currentDate = DateTime.Now;
+    var dayOfTheWeek = currentDate.DayOfWeek.ToString().Substring(0, 3);
+    var month = "";
+    switch (currentDate.Month)
+    {
+        case 1:
+            month = "Jan";
+            break;
+        case 2:
+            month = "Feb";
+            break;
+        case 3:
+            month = "Mar";
+            break;
+        case 4:
+            month = "Apr";
+            break;
+        case 5:
+            month = "May";
+            break;
+        case 6:
+            month = "Jun";
+            break;
+        case 7:
+            month = "Jul";
+            break;
+        case 8:
+            month = "Aug";
+            break;
+        case 9:
+            month = "Sept";
+            break;
+        case 10:
+            month = "Oct";
+            break;
+        case 11:
+            month = "Nov";
+            break;
+        case 12:
+            month = "Dec";
+            break;
+    }
+
+    var meridian = currentDate.Hour > 11 ? "PM" : "AM";
+    var hours = currentDate.Hour > 12 ? currentDate.Hour - 12 : currentDate.Hour;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - LFI Dental Clinic</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="font-[Poppins] text-sky-600">
+    <main class="min-h-screen">
+        @if (Session["isAuthenticated"] != null)
+        {
+            <nav class="flex justify-between items-center shadow">
+                <div class="font-semibold bg-teal-500 text-white px-4 py-2">
+                    <div>
+                        @dayOfTheWeek, @month. @currentDate.Day @currentDate.Year
+                    </div>
+                    <div>
+                        @hours:@currentDate.Minute @meridian
+                    </div>
+                </div>
+                <div class="flex gap-8 pr-8">
+                    <div>
+                        @if (ViewContext.RouteData.Values["action"] as string == "List")
+                        {
+                            @Html.ActionLink("All Patients", "List", null, new { @class = "border border-teal-500 bg-teal-500 hover:border-teal-400 hover:bg-teal-400 transition duration-200 text-white px-6 py-1 rounded-full" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("All Patients", "List", null, new { @class = "border border-teal-500 hover:bg-teal-400 hover:border-teal-400 hover:text-white transition duration-200 px-6 py-1 rounded-full" })
+                        }
+                    </div>
+                    <div>
+                        @if (ViewContext.RouteData.Values["action"] as string == "Create")
+                        {
+                            @Html.ActionLink("Add Patient", "Create", null, new { @class = "border border-teal-500 bg-teal-500 hover:border-teal-400 hover:bg-teal-400 transition duration-200 text-white px-6 py-1 rounded-full" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Add Patient", "Create", null, new { @class = "border border-teal-500 hover:bg-teal-400 hover:border-teal-400 hover:text-white transition duration-200 px-6 py-1 rounded-full" })
+                        }
+                    </div>
+                    @using (Html.BeginForm("Logout", "Patients", FormMethod.Post, new { @class = "flex items-center" }))
+                    {
+                        <button type="submit">
+                            <img src="~/Images/nav-exit.png" alt="Logout" />
+                        </button>
+                    }
+                </div>
+            </nav>
+        }
+        @RenderBody()
+    </main>
+
+    <footer class="bg-teal-500 text-white text-center text-lg py-4 font-medium text-sm">
+        LFI Dental Clinic &copy; 2022
+    </footer>
+</body>
+</html>

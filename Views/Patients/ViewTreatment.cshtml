@@ -1,0 +1,36 @@
+﻿@model LFIDentalClinic.Models.DentalTreatment
+
+@{
+    ViewBag.Title = "View Treatment";
+}
+
+<div class="max-w-6xl mx-auto py-8 px-6">
+    <div class="flex items-center justify-between mb-6">
+        <div>
+            <h2 class="font-bold text-2xl">
+                Procedure Details
+            </h2>
+            @Html.ActionLink("« Back to Treatments", "Treatments", new { id = ViewContext.RouteData.Values["id"] }, new { @class = "hover:underline underline-offset-4"})
+        </div>
+        <div>
+            @Html.ActionLink("Edit", "EditTreatment", new { id = ViewContext.RouteData.Values["id"], treatmentId = ViewContext.RouteData.Values["treatmentId"] }, new { @class = "px-6 py-1 rounded-3xl border border-teal-500 hover:bg-teal-500 hover:text-white transition duration-200" })
+            @Html.ActionLink("Delete", "DeleteTreatment", new { id = ViewContext.RouteData.Values["id"], treatmentId = ViewContext.RouteData.Values["treatmentId"] }, new { @class = "px-6 py-1 rounded-3xl border border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition duration-200" })
+        </div>
+    </div>
+
+    <div class="max-w-prose">
+        <div class="grid grid-cols-[8rem_auto] mb-1">
+            <div class="font-semibold">@Html.DisplayNameFor(m => m.Service):</div>
+            <div>@Html.DisplayFor(m => m.Service)</div>
+        </div>
+        <div class="grid grid-cols-[8rem_auto] mb-1">
+            <div class="font-semibold">@Html.DisplayNameFor(m => m.CreatedDate):</div>
+            <div>@Html.DisplayFor(m => m.CreatedDate)</div>
+        </div>
+        <div>
+            <div class="font-semibold mb-2">@Html.DisplayNameFor(m => m.ProcedureDetails):</div>
+            <div class="min-h-[12rem] border border-sky-600 px-3 py-1">@Html.DisplayFor(m => m.ProcedureDetails)</div>
+        </div>
+    </div>
+</div>
+

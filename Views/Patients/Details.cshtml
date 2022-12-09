@@ -1,0 +1,445 @@
+﻿@model LFIDentalClinic.Models.Patient
+
+@{
+    ViewBag.Title = "Details";
+    var birthDate = DateTime.Parse(@Model.BirthDate);
+    var formattedDate = $"{birthDate.Month} / {birthDate.Day} / {birthDate.Year}";
+}
+
+
+<div class="max-w-6xl mx-auto py-8 px-6">
+    <h2 class="text-2xl font-bold mb-6">View Patient</h2>
+
+    @using (Html.BeginForm("Create", "Patients", FormMethod.Post))
+    {
+        <div class="grid sm:grid-cols-[2fr_1fr] gap-4">
+            <!-- Left column -->
+            <div>
+                @Html.AntiForgeryToken()
+                <div class="mb-6">
+                    <h3 class="text-center font-semibold text-xl mb-3">Personal Information</h3>
+                    <div class="border border-teal-500 px-8 py-6 rounded-3xl">
+                        <!-- Name & Gender -->
+                        <div class="grid xs:grid-cols-[3fr_2fr] lg:grid-cols-[5fr_2fr] gap-4 mb-3">
+                            <!-- Name -->
+                            <div class="grid grid-cols-[auto_1fr] gap-2 sm:gap-4 items-center">
+                                <label class="font-semibold">Name*</label>
+                                <div class="rounded-full px-4 py-2 border border-teal-500 w-full">
+                                    @Html.DisplayFor(m => m.FullName)
+                                </div>
+                            </div>
+
+                            <!-- Gender -->
+                            <div class="grid grid-cols-[auto_1fr] items-center gap-4">
+                                <label class="font-semibold">Gender*</label>
+                                <div class="rounded-full px-4 py-2 border border-teal-500 w-full bg-white">
+                                    @Html.DisplayFor(m => m.Gender)
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Birthdate, Age -->
+                        <div class="grid md:grid-cols-[1fr_auto] gap-4 mb-3">
+                            <!-- Birthdate -->
+                            <div class="grid grid-cols-[auto_1fr] items-center gap-2 sm:gap-4">
+                                <label class="font-semibold">Birthdate*</label>
+                                <div id="BirthDate" class="rounded-full px-4 py-2 border border-teal-500 w-full text-center">
+                                    @formattedDate
+                                </div>
+                            </div>
+                            <!-- Age -->
+                            <div class="grid grid-cols-[auto_1fr] justify-between items-center gap-4">
+                                <label class="font-semibold">Age*</label>
+                                <span id="calculatedAge" type="text" class="rounded-full px-4 py-2 border border-teal-500 w-full pointer-events-none">
+                                    N/A
+                                </span>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-[1fr_auto] gap-4 mb-3">
+                            <!-- Email -->
+                            <div class="grid grid-cols-[auto_1fr] gap-4 items-center">
+                                <label class="font-semibold">Email*</label>
+                                <div class="rounded-full px-4 py-2 border border-teal-500 w-full">
+                                    @Html.DisplayFor(m => m.Email)
+                                </div>
+                            </div>
+                            <!-- Marital Status -->
+                            <div class="grid grid-cols-[auto_1fr] items-center gap-2 sm:gap-4">
+                                <label class="font-semibold">Marital Status*</label>
+                                <div class="rounded-full px-4 py-2 border border-teal-500 w-full bg-white">
+                                    @Html.DisplayFor(m => m.MaritalStatus)
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Mobile number, Telephone number -->
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="grid sm:grid-cols-[auto_1fr] items-center gap-2 sm:gap-4">
+                                <label class="font-semibold">Mobile No.</label>
+                                <div class="rounded-full px-4 py-2 border border-teal-500 w-full">
+                                    @if (String.IsNullOrEmpty(Model.MobileNumber))
+                                    {
+                                        <br />
+                                    }
+                                    else
+                                    {
+                                        @Html.DisplayFor(m => m.MobileNumber)
+                                    }
+                                </div>
+                            </div>
+                            <div class="grid sm:grid-cols-[auto_1fr] items-center gap-2 sm:gap-4">
+                                <label class="font-semibold">Telephone No.</label>
+                                <div class="rounded-full px-4 py-2 border border-teal-500 w-full">
+                                    @if (String.IsNullOrEmpty(Model.TelephoneNumber))
+                                    {
+                                        <br />
+                                    }
+                                    else
+                                    {
+                                        @Html.DisplayFor(m => m.TelephoneNumber)
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Medical History -->
+                <div class="mb-6">
+                    <h3 class="text-center font-semibold text-xl mb-3">Medical History</h3>
+                    <div class="border border-teal-500 px-8 py-6 rounded-3xl">
+                        <!-- First section -->
+                        <div class="grid md:grid-flow-col md:grid-cols-2 md:grid-rows-3 gap-x-4">
+                            <div class="grid sm:grid-cols-[auto_1fr] gap-2 sm:gap-4 mb-3">
+                                <label class="flex items-center gap-4 font-semibold">
+                                    @if (String.IsNullOrEmpty(Model.HeartAilmentOrDisease))
+                                    {
+                                        <input type="checkbox" disabled="disabled" />
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" disabled="disabled" checked />
+                                    }
+                                    Heart Ailment/Disease
+                                </label>
+                                <div class="rounded-full px-4 py-2 border border-teal-500 w-full">
+                                    @if (String.IsNullOrEmpty(Model.HeartAilmentOrDisease))
+                                    {
+                                        <br />
+                                    }
+                                    else
+                                    {
+                                        @Html.DisplayFor(m => m.HeartAilmentOrDisease)
+                                    }
+                                </div>
+                            </div>
+                            <div class="grid sm:grid-cols-[auto_1fr] gap-2 sm:gap-4 mb-3">
+                                <label class="flex items-center gap-4 font-semibold">
+                                    @if (String.IsNullOrEmpty(Model.HospitalAdmission))
+                                    {
+                                        <input type="checkbox" disabled="disabled" />
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" disabled="disabled" checked />
+                                    }
+                                    Hospital Admission
+                                </label>
+                                <div class="rounded-full px-4 py-2 border border-teal-500 w-full">
+                                    @if (String.IsNullOrEmpty(Model.HospitalAdmission))
+                                    {
+                                        <br />
+                                    }
+                                    else
+                                    {
+                                        @Html.DisplayFor(m => m.HospitalAdmission)
+                                    }
+                                </div>
+                            </div>
+                            <div class="grid sm:grid-cols-[auto_1fr] gap-2 sm:gap-4 mb-3">
+                                <label class="flex items-center gap-4 font-semibold">
+                                    @if (String.IsNullOrEmpty(Model.SelfMedication))
+                                    {
+                                        <input type="checkbox" disabled="disabled" />
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" disabled="disabled" checked />
+                                    }
+                                    Self-medication
+                                </label>
+                                <div class="rounded-full px-4 py-2 border border-teal-500 w-full">
+                                    @if (String.IsNullOrEmpty(Model.SelfMedication))
+                                    {
+                                        <br />
+                                    }
+                                    else
+                                    {
+                                        @Html.DisplayFor(m => m.SelfMedication)
+                                    }
+                                </div>
+                            </div>
+                            <div class="grid sm:grid-cols-[auto_1fr] gap-2 sm:gap-4 mb-3">
+                                <label class="flex items-center gap-4 font-semibold">
+                                    @if (String.IsNullOrEmpty(Model.Allergies))
+                                    {
+                                        <input type="checkbox" disabled="disabled" />
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" disabled="disabled" checked />
+                                    }
+                                    Allergies
+                                </label>
+                                <div class="rounded-full px-4 py-2 border border-teal-500 w-full">
+                                    @if (String.IsNullOrEmpty(Model.Allergies))
+                                    {
+                                        <br />
+                                    }
+                                    else
+                                    {
+                                        @Html.DisplayFor(m => m.Allergies)
+                                    }
+                                </div>
+                            </div>
+                            <div class="grid sm:grid-cols-[auto_1fr] gap-2 sm:gap-4 mb-3">
+                                <label class="flex items-center gap-4 font-semibold">
+                                    @if (String.IsNullOrEmpty(Model.Operation))
+                                    {
+                                        <input type="checkbox" disabled="disabled" />
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" disabled="disabled" checked />
+                                    }
+                                    Operation
+                                </label>
+                                <div class="rounded-full px-4 py-2 border border-teal-500 w-full">
+                                    @if (String.IsNullOrEmpty(Model.Operation))
+                                    {
+                                        <br />
+                                    }
+                                    else
+                                    {
+                                        @Html.DisplayFor(m => m.Operation)
+                                    }
+                                </div>
+                            </div>
+                            <div class="grid sm:grid-cols-[auto_1fr] gap-2 sm:gap-4 mb-3">
+                                <label class="flex items-center gap-4 font-semibold">
+                                    @if (String.IsNullOrEmpty(Model.TumorsOrGrowth))
+                                    {
+                                        <input type="checkbox" disabled="disabled" />
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" disabled="disabled" checked />
+                                    }
+                                    Tumor/Growth
+                                </label>
+                                <div class="rounded-full px-4 py-2 border border-teal-500 w-full">
+                                    @if (String.IsNullOrEmpty(Model.TumorsOrGrowth))
+                                    {
+                                        <br />
+                                    }
+                                    else
+                                    {
+                                        @Html.DisplayFor(m => m.TumorsOrGrowth)
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Second section -->
+                        <div class="grid gap-y-2 xs:grid-cols-2 gap-x-4 md:grid-flow-col md:grid-rows-3 md:grid-cols-4 mb-3">
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.Diabetes, new { disabled = "disabled" })
+                                Diabetes
+                            </label>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.Sinusitis, new { disabled = "disabled" })
+                                Sinusitis
+                            </label>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.BleedingGums, new { disabled = "disabled" })
+                                Bleeding Gums
+                            </label>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.Hypertension, new { disabled = "disabled" })
+                                Hypertension
+                            </label>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.StomachDisease, new { disabled = "disabled" })
+                                Stomach Disease
+                            </label>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.BloodDisease, new { disabled = "disabled" })
+                                Blood Disease
+                            </label>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.Headache, new { disabled = "disabled" })
+                                Headache
+                            </label>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.LiverDisease, new { disabled = "disabled" })
+                                Liver Disease
+                            </label>
+                            <div class="grid grid-cols-[auto_1fr] gap-4 items-center xs:col-span-2 sm:col-span-1 md:col-span-2">
+                                <label class="font-semibold flex gap-4">
+                                    @if (String.IsNullOrEmpty(Model.Pregnant))
+                                    {
+                                        <input type="checkbox" disabled="disabled" />
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" disabled="disabled" checked />
+                                    }
+                                    Pregnant
+                                </label>
+                                <div class="rounded-full px-4 py-2 border border-teal-500 w-full">
+                                    @if (String.IsNullOrEmpty(Model.Pregnant))
+                                    {
+                                        <br />
+                                    }
+                                    else
+                                    {
+                                        @Html.DisplayFor(m => m.Pregnant)
+                                    }
+                                </div>
+                            </div>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.Cold, new { disabled = "disabled" })
+                                Cold
+                            </label>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.Kidney, new { disabled = "disabled" })
+                                Kidney Disease
+                            </label>
+                        </div>
+                        <!-- Bottom section -->
+                        <div class="grid sm:grid-cols-[auto_1fr] gap-2 sm:gap-4 items-center">
+                            <label class="font-semibold">
+                                Family history on any of the above concerns
+                            </label>
+                            <div class="rounded-full px-4 py-2 border border-teal-500 w-full">
+                                @if (String.IsNullOrEmpty(Model.FamilyHistryOnAny))
+                                {
+                                    <br />
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(m => m.FamilyHistryOnAny)
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right column -->
+            <div>
+                <!-- Dental History -->
+                <div class="mb-6">
+                    <h3 class="text-center font-semibold text-xl mb-3">Dental History</h3>
+                    <div class="border border-teal-500 px-8 py-6 rounded-3xl">
+                        <!-- First section -->
+                        <div class="grid gap-y-4 mb-3">
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.BleedingInMouth, new { disabled = "disabled" })
+                                Bleeding in Mouth
+                            </label>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.GumsColorChange, new { disabled = "disabled" })
+                                Gums change color
+                            </label>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.BadBreath, new { disabled = "disabled" })
+                                Bad Breath
+                            </label>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.Palate, new { disabled = "disabled" })
+                                Palate
+                            </label>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.TeethColorChange, new { disabled = "disabled" })
+                                Teeth color Change
+                            </label>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.LumpsInMouth, new { disabled = "disabled" })
+                                Lumps in mouth
+                            </label>
+                        </div>
+                        <!-- Second section -->
+                        <div class="grid gap-y-4 mb-3">
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.SensitiveTeeth, new { disabled = "disabled" })
+                                Sensitive teeth (hot/cold/sweet)
+                            </label>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.ClickingSound, new { disabled = "disabled" })
+                                Clicking sound in mouth when chewing
+                            </label>
+                        </div>
+                        <!-- Bottom section -->
+                        <div class="grid gap-2 sm:gap-4 items-center">
+                            <label class="font-semibold flex gap-4 items-center">
+                                @if (String.IsNullOrEmpty(Model.PastDentalCareOrTreatments))
+                                {
+                                    <input type="checkbox" disabled="disabled" />
+                                }
+                                else
+                                {
+                                    <input type="checkbox" disabled="disabled" checked />
+                                }
+                                Past Dental Care/Treatments
+                            </label>
+                            <div class="rounded-full px-4 py-2 border border-teal-500 w-full">
+                                @if (String.IsNullOrEmpty(Model.PastDentalCareOrTreatments))
+                                {
+                                    <br />
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(m => m.PastDentalCareOrTreatments)
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex justify-center gap-4">
+            @Html.ActionLink("Edit", "Edit", new { Id = Model.Id }, new { @class = "px-6 py-2 rounded-3xl border border-teal-500 text-teal-500 hover:bg-teal-500 hover:text-white transition duration-200" })
+            @Html.ActionLink("Delete", "Delete", new { Id = Model.Id }, new { @class = "px-6 py-2 rounded-3xl border border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition duration-200" })
+        </div>
+    }
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/luxon@3.1.1/build/global/luxon.min.js"></script>
+<script>
+    function getAge(dateString) {
+        const duration = luxon.DateTime.fromFormat(
+            dateString,
+            "yyyy-MM-dd",
+            {
+                zone: "Asia/Manila",
+            }
+        ).diffNow("years").years
+
+        const dropSign = Math.abs(duration)
+        const dropDecimals = Math.trunc(dropSign)
+
+        if (isNaN(dropDecimals))
+            return "N/A"
+
+        return dropDecimals
+    }
+
+    txtBirthDate = $(`#BirthDate`)
+    txtCalculatedAge = $(`#calculatedAge`)
+
+    if (txtBirthDate.text().trim() !== "") {
+        txtCalculatedAge.text(getAge(txtBirthDate.text().trim()))
+    }
+</script>

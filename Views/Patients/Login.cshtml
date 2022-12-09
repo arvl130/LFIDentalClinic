@@ -1,0 +1,52 @@
+﻿@model LFIDentalClinic.Models.User
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<div class="px-4">
+    <div class="max-w-md mx-auto">
+        <!-- Logo -->
+        <div>
+            <div class="text-2xl font-medium pb-12 pt-12 xs:pt-24 flex flex-col items-center">
+                <img src="~/Images/lfi-logo.png"
+                     alt="LFI Dental Clinic logo"
+                     class="max-w-[5rem] mb-4" />
+                <div class="text-center">Welcome to LFI Dental Clinic</div>
+            </div>
+        </div>
+        <!-- Login box -->
+        @using (Html.BeginForm("Login", "Patients", FormMethod.Post, new { @class = "border border-teal-500 p-6 rounded-2xl mb-3" }))
+        {
+            <!-- inputs -->
+            <div class="max-w-fit mx-auto xs:text-right">
+                <div class="mb-6 grid xs:grid-cols-[5rem_1fr] gap-2 items-center">
+                    @Html.LabelFor(m => m.Username)
+                    <div class="grid">
+                        @Html.EditorFor(m => m.Username, new { htmlAttributes = new { @class = "border border-teal-500 py-2 px-3 rounded-2xl min-w-0" } })
+                        @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-red-500 mt-1" })
+                    </div>
+                </div>
+                <div class="mb-6 grid xs:grid-cols-[5rem_1fr] gap-2 items-center">
+                    @Html.LabelFor(m => m.Password)
+                    <div class="grid">
+                        @Html.EditorFor(m => m.Password, new { htmlAttributes = new { @class = "border border-teal-500 py-2 px-3 rounded-2xl min-w-0" } })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-red-500 mt-1" })
+                    </div>
+                </div>
+            </div>
+            if (!String.IsNullOrEmpty(Model.Username) && !String.IsNullOrEmpty(Model.Password))
+            {
+                <div class="mb-3 text-center text-red-500">
+                    @Html.ValidationSummary(true)
+                </div>
+            }
+            <!-- actions -->
+            <div class="flex justify-center">
+                <button type="submit" class="px-6 py-2 rounded-3xl bg-teal-500 hover:bg-teal-400 transition duration-200 text-white">
+                    Login
+                </button>
+            </div>
+        }
+    </div>
+</div>

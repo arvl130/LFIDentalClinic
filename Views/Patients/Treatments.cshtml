@@ -1,0 +1,42 @@
+﻿@model IEnumerable<LFIDentalClinic.Models.DentalTreatment>
+@{
+    ViewBag.Title = "Dental Treatments";
+}
+
+<div class="max-w-6xl mx-auto py-8 px-6">
+    <div class="flex items-center justify-between mb-6">
+        <div>
+            <h2 class="font-bold text-2xl">
+                Dental Treatments
+            </h2>
+            @Html.ActionLink("« Back to Patients", "List", null, new { @class = "hover:underline underline-offset-4" })
+        </div>
+        <div>
+            @Html.ActionLink("Create", "CreateTreatment", new { id = ViewContext.RouteData.Values["id"] }, new { @class = "border border-teal-500 rounded-full px-4 py-1 hover:bg-teal-400 hover:border-teal-400 hover:text-white transition duration-200" })
+        </div>
+    </div>
+
+    <div class="grid grid-cols-3 bg-teal-500/40 gap-4 px-8 py-3 font-bold">
+        <div>Date</div>
+        <div>Service</div>
+        <div>Procedure</div>
+    </div>
+
+    @if (Model.Count() > 0)
+    {
+        foreach (var item in Model)
+        {
+            <div class="grid grid-cols-3 gap-4 px-8 py-3">
+                <div>@Html.DisplayFor(m => item.CreatedDate)</div>
+                <div>@Html.DisplayFor(m => item.Service)</div>
+                <div>
+                    @Html.ActionLink("View", "ViewTreatment", new { id = ViewContext.RouteData.Values["id"], treatmentId = item.Id })
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="text-center text-xl mt-10">No dental treatments at the moment</div>
+    }
+</div>

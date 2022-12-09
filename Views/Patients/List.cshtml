@@ -1,0 +1,49 @@
+﻿@model IEnumerable<LFIDentalClinic.Models.Patient>
+
+@{
+    ViewBag.Title = "List";
+}
+
+<div class="max-w-6xl mx-auto py-8 px-6">
+    <h2 class="font-bold text-2xl mb-6">
+        Patient Records
+    </h2>
+
+    <div>
+        <div class="grid grid-cols-[minmax(0,_6rem)_repeat(2,_1fr)_minmax(0,_8rem)_minmax(0,_10rem)] bg-teal-500/40 gap-4 px-8 py-3 font-bold">
+            <div class="overflow-hidden text-ellipsis">Patient ID</div>
+            <div class="overflow-hidden text-ellipsis">Name</div>
+            <div class="overflow-hidden text-ellipsis">Email</div>
+            <div class="overflow-hidden text-ellipsis">Medical Chart</div>
+            <div class="overflow-hidden text-ellipsis">Dental Treatments</div>
+        </div>
+
+        @if (Model.Count() > 0)
+        {
+            foreach (var item in Model)
+            {
+                <div class="grid grid-cols-[minmax(0,_6rem)_repeat(2,_1fr)_minmax(0,_8rem)_minmax(0,_10rem)] gap-4 px-8 py-3">
+                    <div class="overflow-hidden text-ellipsis">
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </div>
+                    <div class="overflow-hidden text-ellipsis">
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </div>
+                    <div class="overflow-hidden text-ellipsis">
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </div>
+                    <div class="overflow-hidden text-ellipsis">
+                        @Html.ActionLink("View", "Details", new { id = item.Id })
+                    </div>
+                    <div class="overflow-hidden text-ellipsis">
+                        @Html.ActionLink("View", "Treatments", new { id = item.Id })
+                    </div>
+                </div>
+            }
+        } else
+        {
+            <div class="text-center text-xl mt-10">No patients records at the moment</div>
+        }
+    </div>
+
+</div>

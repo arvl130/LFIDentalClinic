@@ -1,0 +1,400 @@
+﻿@model LFIDentalClinic.Models.Patient
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+
+<div class="max-w-6xl mx-auto py-8 px-6">
+    <h2 class="text-2xl font-bold mb-6">Edit Patient</h2>
+
+    @using (Html.BeginForm("Edit", "Patients", FormMethod.Post))
+    {
+        <div class="grid sm:grid-cols-[2fr_1fr] gap-4">
+            <!-- Left column -->
+            <div>
+                @Html.AntiForgeryToken()
+                <div class="mb-6">
+                    <h3 class="text-center font-semibold text-xl mb-3">Personal Information</h3>
+                    <div class="border border-teal-500 px-8 py-6 rounded-3xl">
+                        <!-- Name & Gender -->
+                        <div class="grid xs:grid-cols-[3fr_2fr] lg:grid-cols-[5fr_2fr] gap-4 mb-3">
+                            <!-- Name -->
+                            <div class="grid grid-cols-[auto_1fr] gap-2 sm:gap-4">
+                                <label class="font-semibold mt-2">Name*</label>
+                                <div class="flex flex-col">
+                                    @Html.EditorFor(m => m.FullName, new { htmlAttributes = new { @class = "rounded-full px-4 py-2 border border-teal-500 w-full" } })
+                                    @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-red-500" })
+                                </div>
+                            </div>
+
+                            <!-- Gender -->
+                            <div class="grid grid-cols-[auto_1fr] gap-4">
+                                <label class="font-semibold mt-2">Gender*</label>
+                                <div class="flex flex-col">
+                                    @Html.DropDownListFor(
+                                         m => m.Gender,
+                                         new SelectList(new List<string>() { "male", "female", "other" }),
+                                         new { @class = "rounded-full px-4 py-2 border border-teal-500 w-full bg-white" }
+                                     )
+                                    @Html.ValidationMessageFor(m => m.Gender, "", new { @class = "text-red-500" })
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Birthdate, Age -->
+                        <div class="grid md:grid-cols-[1fr_auto] gap-4 mb-3">
+                            <!-- Birthdate -->
+                            <div class="grid grid-cols-[auto_1fr] gap-2 sm:gap-4">
+                                <label class="font-semibold mt-2">Birthdate*</label>
+                                <div class="flex flex-col">
+                                    @Html.EditorFor(m => m.BirthDate, new { htmlAttributes = new { min = "1900-01-01", @class = "rounded-full px-4 py-2 border border-teal-500 w-full text-center" } })
+                                    @Html.ValidationMessageFor(m => m.BirthDate, "", new { @class = "text-red-500" })
+                                </div>
+                            </div>
+                            <!-- Age -->
+                            <div class="grid grid-cols-[auto_1fr] items-center gap-4">
+                                <label class="font-semibold">Age</label>
+                                <span id="calculatedAge" type="text" class="rounded-full px-4 py-2 border border-teal-500 w-full pointer-events-none">
+                                    N/A
+                                </span>
+                            </div>
+                        </div>
+                        <!-- Email, Marital Status -->
+                        <div class="grid md:grid-cols-[1fr_auto] gap-4 mb-3">
+                            <!-- Email -->
+                            <div class="grid grid-cols-[auto_1fr] gap-4 mb-3">
+                                <label class="font-semibold mt-2">Email*</label>
+                                <div class="flex flex-col">
+                                    @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "rounded-full px-4 py-2 border border-teal-500 w-full" } })
+                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-red-500" })
+                                </div>
+                            </div>
+                            <!-- Marital Status -->
+                            <div class="grid grid-cols-[auto_1fr] gap-2 sm:gap-4">
+                                <label class="font-semibold mt-2">Marital Status*</label>
+                                <div class="flex flex-col">
+                                    @Html.DropDownListFor(m => m.MaritalStatus, new SelectList(new List<string>() { "single", "married", "widowed" }), new { @class = "rounded-full px-4 py-2 border border-teal-500 w-full bg-white" })
+                                    @Html.ValidationMessageFor(m => m.MaritalStatus, "", new { @class = "text-red-500" })
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Mobile number, Telephone number -->
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="grid sm:grid-cols-[auto_1fr] items-center gap-2 sm:gap-4">
+                                <label class="font-semibold">Mobile No.</label>
+                                @Html.EditorFor(m => m.MobileNumber, new { htmlAttributes = new { @class = "rounded-full px-4 py-2 border border-teal-500 w-full" } })
+                            </div>
+                            <div class="grid sm:grid-cols-[auto_1fr] items-center gap-2 sm:gap-4">
+                                <label class="font-semibold">Telephone No.</label>
+                                @Html.EditorFor(m => m.TelephoneNumber, new { htmlAttributes = new { @class = "rounded-full px-4 py-2 border border-teal-500 w-full" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Medical History -->
+                <div class="mb-6">
+                    <h3 class="text-center font-semibold text-xl mb-3">Medical History</h3>
+                    <div class="border border-teal-500 px-8 py-6 rounded-3xl">
+                        <div class="font-semibold mb-3">Please check the items that apply.</div>
+                        <!-- First section -->
+                        <div class="grid md:grid-flow-col md:grid-cols-2 md:grid-rows-3 gap-x-4">
+                            <div class="grid sm:grid-cols-[auto_1fr] gap-2 sm:gap-4 mb-3">
+                                <label class="flex gap-4 font-semibold">
+                                    <div>
+                                        <input type="checkbox" data-checkbox-for="HeartAilmentOrDisease" />
+                                    </div>
+                                    <div>
+                                        Heart Ailment/Disease
+                                    </div>
+                                </label>
+                                <div>
+                                    @Html.EditorFor(m => m.HeartAilmentOrDisease, new { htmlAttributes = new { placeholder = "Blood Pressure", @class = "rounded-full px-4 py-2 border border-teal-500 w-full" } })
+                                    @Html.ValidationMessageFor(m => m.HeartAilmentOrDisease, "", new { @class = "text-red-500" })
+                                </div>
+                            </div>
+                            <div class="grid sm:grid-cols-[auto_1fr] gap-2 sm:gap-4 mb-3">
+                                <label class="flex gap-4 font-semibold">
+                                    <div>
+                                        <input type="checkbox" data-checkbox-for="HospitalAdmission" />
+                                    </div>
+                                    <div>
+                                        Hospital Admission
+                                    </div>
+                                </label>
+                                <div>
+                                    @Html.EditorFor(m => m.HospitalAdmission, new { htmlAttributes = new { placeholder = "Reason", @class = "rounded-full px-4 py-2 border border-teal-500 w-full" } })
+                                    @Html.ValidationMessageFor(m => m.HospitalAdmission, "", new { @class = "text-red-500" })
+                                </div>
+                            </div>
+                            <div class="grid sm:grid-cols-[auto_1fr] gap-2 sm:gap-4 mb-3">
+                                <label class="flex gap-4 font-semibold">
+                                    <div>
+                                        <input type="checkbox" data-checkbox-for="SelfMedication" />
+                                    </div>
+                                    <div>
+                                        Self-medication
+                                    </div>
+                                </label>
+                                <div>
+                                    @Html.EditorFor(m => m.SelfMedication, new { htmlAttributes = new { @class = "rounded-full px-4 py-2 border border-teal-500 w-full" } })
+                                    @Html.ValidationMessageFor(m => m.SelfMedication, "", new { @class = "text-red-500" })
+                                </div>
+                            </div>
+                            <div class="grid sm:grid-cols-[auto_1fr] gap-2 sm:gap-4 mb-3">
+                                <label class="flex gap-4 font-semibold">
+                                    <div>
+                                        <input type="checkbox" data-checkbox-for="Allergies" />
+                                    </div>
+                                    <div>
+                                        Allergies
+                                    </div>
+                                </label>
+                                <div>
+                                    @Html.EditorFor(m => m.Allergies, new { htmlAttributes = new { placeholder = "Food/Medicine", @class = "rounded-full px-4 py-2 border border-teal-500 w-full" } })
+                                    @Html.ValidationMessageFor(m => m.Allergies, "", new { @class = "text-red-500" })
+                                </div>
+                            </div>
+                            <div class="grid sm:grid-cols-[auto_1fr] gap-2 sm:gap-4 mb-3">
+                                <label class="flex gap-4 font-semibold">
+                                    <div>
+                                        <input type="checkbox" data-checkbox-for="Operation" />
+                                    </div>
+                                    <div>
+                                        Operation
+                                    </div>
+                                </label>
+                                <div>
+                                    @Html.EditorFor(m => m.Operation, new { htmlAttributes = new { @class = "rounded-full px-4 py-2 border border-teal-500 w-full" } })
+                                    @Html.ValidationMessageFor(m => m.Operation, "", new { @class = "text-red-500" })
+                                </div>
+                            </div>
+                            <div class="grid sm:grid-cols-[auto_1fr] gap-2 sm:gap-4 mb-3">
+                                <label class="flex gap-4 font-semibold">
+                                    <div>
+                                        <input type="checkbox" data-checkbox-for="TumorsOrGrowth" />
+                                    </div>
+                                    <div>
+                                        Tumor/Growth
+                                    </div>
+                                </label>
+                                <div class="flex flex-col">
+                                    @Html.EditorFor(m => m.TumorsOrGrowth, new { htmlAttributes = new { @class = "rounded-full px-4 py-2 border border-teal-500 w-full" } })
+                                    @Html.ValidationMessageFor(m => m.TumorsOrGrowth, "", new { @class = "text-red-500" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Second section -->
+                        <div class="grid gap-y-2 xs:grid-cols-2 gap-x-4 md:grid-flow-col md:grid-rows-3 md:grid-cols-4 mb-3">
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.Diabetes)
+                                Diabetes
+                            </label>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.Sinusitis)
+                                Sinusitis
+                            </label>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.BleedingGums)
+                                Bleeding Gums
+                            </label>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.Hypertension)
+                                Hypertension
+                            </label>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.StomachDisease)
+                                Stomach Disease
+                            </label>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.BloodDisease)
+                                Blood Disease
+                            </label>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.Headache)
+                                Headache
+                            </label>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.LiverDisease)
+                                Liver Disease
+                            </label>
+                            <div class="grid grid-cols-[auto_1fr] gap-4 xs:col-span-2 sm:col-span-1 md:col-span-2">
+                                <label class="font-semibold flex gap-4 mt-2">
+                                    <div>
+                                        <input type="checkbox" data-checkbox-for="Pregnant" />
+                                    </div>
+                                    <div>
+                                        Pregnant
+                                    </div>
+                                </label>
+                                <div class="flex flex-col">
+                                    @Html.EditorFor(m => m.Pregnant, new { htmlAttributes = new { placeholder = "No. of Months", @class = "rounded-full px-4 py-2 border border-teal-500 w-full" } })
+                                    @Html.ValidationMessageFor(m => m.Pregnant, "", new { @class = "text-red-500" })
+                                </div>
+                            </div>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.Cold)
+                                Cold
+                            </label>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.Kidney)
+                                Kidney Disease
+                            </label>
+                        </div>
+                        <!-- Bottom section -->
+                        <div class="grid sm:grid-cols-[auto_1fr] gap-2 sm:gap-4">
+                            <label class="font-semibold mt-2">
+                                Family history on any of the above concerns
+                            </label>
+                            <div class="flex flex-col">
+                                @Html.EditorFor(m => m.FamilyHistryOnAny, new { htmlAttributes = new { @class = "rounded-full px-4 py-2 border border-teal-500 w-full" } })
+                                @Html.ValidationMessageFor(m => m.FamilyHistryOnAny, "", new { @class = "text-red-500" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right column -->
+            <div>
+                <!-- Dental History -->
+                <div class="mb-6">
+                    <h3 class="text-center font-semibold text-xl mb-3">Dental History</h3>
+                    <div class="border border-teal-500 px-8 py-6 rounded-3xl">
+                        <div class="font-semibold mb-3">Please check the items that apply.</div>
+                        <!-- First section -->
+                        <div class="grid gap-y-4 mb-3">
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.BleedingInMouth)
+                                Bleeding in Mouth
+                            </label>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.GumsColorChange)
+                                Gums change color
+                            </label>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.BadBreath)
+                                Bad Breath
+                            </label>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.Palate)
+                                Palate
+                            </label>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.TeethColorChange)
+                                Teeth color Change
+                            </label>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.LumpsInMouth)
+                                Lumps in mouth
+                            </label>
+                        </div>
+                        <!-- Second section -->
+                        <div class="grid gap-y-4 mb-3">
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.SensitiveTeeth)
+                                Sensitive teeth (hot/cold/sweet)
+                            </label>
+                            <label class="font-semibold flex gap-4 items-center">
+                                @Html.CheckBoxFor(m => m.ClickingSound)
+                                Clicking sound in mouth when chewing
+                            </label>
+                        </div>
+                        <!-- Bottom section -->
+                        <div class="grid gap-2 sm:gap-4">
+                            <label class="font-semibold flex gap-4 items-center mt-2">
+                                <input type="checkbox" data-checkbox-for="PastDentalCareOrTreatments" />
+                                Past Dental Care/Treatments
+                            </label>
+                            <div class="flex flex-col">
+                                @Html.EditorFor(m => m.PastDentalCareOrTreatments, new { htmlAttributes = new { @class = "rounded-full px-4 py-2 border border-teal-500 w-full" } })
+                                @Html.ValidationMessageFor(m => m.PastDentalCareOrTreatments, "", new { @class = "text-red-500" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex justify-center gap-4">
+            @Html.ActionLink("Cancel", "Details", new { Id = Model.Id }, new { @class = "px-6 py-2 rounded-3xl border border-teal-500 text-teal-500 hover:bg-teal-500 hover:text-white transition duration-200" })
+            <button type="submit" class="px-6 py-2 rounded-3xl bg-sky-600 hover:bg-sky-500 transition duration-200 text-white">
+                Save
+            </button>
+        </div>
+    }
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/luxon@3.1.1/build/global/luxon.min.js"></script>
+<script>
+    function disableOrEnable(itemName) {
+
+        if ($(`#${itemName}`).val() === "") {
+            console.log(`${itemName} is empty`)
+            $(`#${itemName}`).attr("readonly", "true")
+            $(`#${itemName}`).attr("class", "rounded-full px-4 py-2 border border-teal-500 w-full text-box single-line bg-gray-300")
+        } else {
+            $(`[data-checkbox-for="${itemName}"]`).prop('checked', true);
+        }
+
+        $(`[data-checkbox-for="${itemName}"]`).change(function () {
+            event.stopPropagation()
+            console.log(`Label for ${itemName} changed`)
+            const checkboxForItemIsChecked = this.checked
+            if (checkboxForItemIsChecked) {
+                $(`#${itemName}`).removeAttr("readonly")
+                $(`#${itemName}`).attr("class", "rounded-full px-4 py-2 border border-teal-500 w-full text-box single-line")
+            } else {
+                $(`#${itemName}`).attr("readonly", "true")
+                $(`#${itemName}`).attr("class", "rounded-full px-4 py-2 border border-teal-500 w-full text-box single-line bg-gray-300")
+                $(`#${itemName}`).val("")
+            }
+        })
+    }
+
+    [
+        "HeartAilmentOrDisease",
+        "HospitalAdmission",
+        "SelfMedication",
+        "Allergies",
+        "Operation",
+        "TumorsOrGrowth",
+        "Pregnant",
+        "PastDentalCareOrTreatments"
+    ].forEach((itemName) => {
+        disableOrEnable(itemName)
+    })
+
+    function getAge(dateString) {
+        const duration = luxon.DateTime.fromFormat(
+            dateString,
+            "yyyy-MM-dd",
+            {
+                zone: "Asia/Manila",
+            }
+        ).diffNow("years").years
+
+        const dropSign = Math.abs(duration)
+        const dropDecimals = Math.trunc(dropSign)
+
+        if (isNaN(dropDecimals))
+            return "N/A"
+
+        return dropDecimals
+    }
+
+    txtBirthDate = $(`input#BirthDate`)
+    txtCalculatedAge = $(`#calculatedAge`)
+
+    if (txtBirthDate.val() !== "") {
+        txtCalculatedAge.text(getAge(txtBirthDate.val()))
+    }
+
+    txtBirthDate.change(function () {
+        console.log("Birth date changed")
+        txtCalculatedAge.text(getAge(txtBirthDate.val()))
+    })
+</script>

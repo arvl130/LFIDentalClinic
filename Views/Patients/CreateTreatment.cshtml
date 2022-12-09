@@ -1,0 +1,46 @@
+﻿@model LFIDentalClinic.Models.DentalTreatment
+
+@{
+    ViewBag.Title = "Create Treatment";
+}
+
+@using (Html.BeginForm("CreateTreatment", "Patients", FormMethod.Post, new { @class = "max-w-6xl mx-auto py-8 px-6" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="flex items-center justify-between mb-6">
+        <div>
+            <h2 class="font-bold text-2xl">
+                Create Treatment
+            </h2>
+            @Html.ActionLink("« Back to Treatments", "Treatments", new { id = ViewContext.RouteData.Values["id"] }, new { @class = "hover:underline underline-offset-4" })
+        </div>
+        <div>
+            <button type="submit" class="px-6 py-1 rounded-3xl border border-teal-500 hover:bg-teal-500 hover:text-white transition duration-200">
+                Save
+            </button>
+        </div>
+    </div>
+    <div class="max-w-prose">
+        @Html.HiddenFor(m => m.PatientId)
+        <div class="grid grid-cols-[8rem_auto] mb-3 max-w-md">
+            <div class="font-semibold mt-1">@Html.DisplayNameFor(m => m.Service):</div>
+            <div class="grid">
+                @Html.EditorFor(m => m.Service, new { htmlAttributes = new { @class = "border border-sky-600 px-2 py-1 rounded-md w-full" } })
+                @Html.ValidationMessageFor(m => m.Service, "", new { @class = "text-red-500" })
+            </div>
+        </div>
+        <div class="grid grid-cols-[8rem_auto] mb-3 max-w-[18rem]">
+            <div class="font-semibold mt-1">@Html.DisplayNameFor(m => m.CreatedDate):</div>
+            <div class="grid">
+                @Html.EditorFor(m => m.CreatedDate, new { htmlAttributes = new { @class = "border border-sky-600 px-2 py-1 rounded-md w-full text-center" } })
+                @Html.ValidationMessageFor(m => m.CreatedDate, "", new { @class = "text-red-500" })
+            </div>
+        </div>
+        <div>
+            <div class="font-semibold mb-2">@Html.DisplayNameFor(m => m.ProcedureDetails):</div>
+            @Html.EditorFor(m => m.ProcedureDetails, new { htmlAttributes = new { @class = "w-full min-h-[12rem] border border-sky-600 px-3 py-1\"" } })
+            @Html.ValidationMessageFor(m => m.ProcedureDetails, "", new { @class = "text-red-500" })
+        </div>
+    </div>
+}
