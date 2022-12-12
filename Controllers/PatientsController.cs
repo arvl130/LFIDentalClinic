@@ -53,12 +53,18 @@ namespace LFIDentalClinic.Controllers
         }
 
         // GET: Patients
-        public ActionResult List()
+        public ActionResult List(string q)
         {
             if (Session["isAuthenticated"] == null)
                 return RedirectToAction("Login");
 
             var patients = dbContext.Patients.ToList();
+            if (string.IsNullOrEmpty(q))
+            {
+                return View(patients);
+            }
+
+            patients = patients.Where(patient => patient.FullName.ToLower().Contains(q.ToLower())).ToList();
             return View(patients);
         }
 
@@ -134,7 +140,7 @@ namespace LFIDentalClinic.Controllers
 
                 return RedirectToAction("List");
             }
-            catch (Exception e)
+            catch
             {
                 return View(patient);
             }
@@ -304,7 +310,7 @@ namespace LFIDentalClinic.Controllers
 
                 return RedirectToAction("ViewTreatment", new { id = id, treatmentId = treatmentId });
             }
-            catch (Exception ex)
+            catch
             {
                 return View(dentalTreatment);
             }
