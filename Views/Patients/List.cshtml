@@ -1,19 +1,27 @@
 ﻿@model IEnumerable<LFIDentalClinic.Models.Patient>
-
-@{
-    ViewBag.Title = "List";
-}
+@{ ViewBag.Title = "List"; }
 
 <div class="max-w-6xl mx-auto py-8 px-6">
-    <h2 class="font-bold text-2xl mb-6">
-        Patient Records
-    </h2>
+    <h2 class="font-bold text-2xl mb-6">Patient Records</h2>
+    <div class="mb-3 flex gap-2 justify-end">
+        @using (Html.BeginForm("List", "Patients", FormMethod.Get, new { id = "searchForm" }))
+        {
+            @Html.TextBox("q", ViewContext.RouteData.Values["q"], new { placeholder = "Enter a name ...", @class = "border border-sky-600 rounded-md px-3 py-1 focus:outline-none focus:ring focus:ring-teal-300/40" })
+            <button type="submit" class="bg-sky-600 hover:bg-sky-500 transition duration-200 text-white px-3 py-2 rounded-md font-medium">
+                Search
+            </button>
+        }
 
-    @using (Html.BeginForm("List", "Patients", FormMethod.Get, new { @class = "mb-3 flex gap-2 justify-end" }))
-    {
-        @Html.TextBox("q", ViewContext.RouteData.Values["q"], new { placeholder = "Enter a name ...", @class = "border border-sky-600 rounded-md px-3 py-1 focus:outline-none focus:ring focus:ring-teal-300/40" })
-        <button type="submit" class="bg-sky-600 hover:bg-sky-500 transition duration-200 text-white px-3 py-2 rounded-md font-medium">Search</button>
-    }
+        @if (Request.QueryString["q"] != null)
+        {
+            using (Html.BeginForm("List", "Patients"))
+            {
+                <button type="submit" class="bg-sky-600 hover:bg-sky-500 transition duration-200 text-white px-3 py-2 rounded-md font-medium">
+                    Reset
+                </button>
+            }
+        }
+    </div>
 
     <div>
         <div class="grid grid-cols-[minmax(0,_6rem)_repeat(2,_1fr)_minmax(0,_8rem)_minmax(0,_10rem)] bg-teal-500/40 gap-4 px-8 py-3 font-bold">
@@ -46,10 +54,19 @@
                     </div>
                 </div>
             }
-        } else
+        }
+        else
         {
-            <div class="text-center text-xl mt-10">No patients records at the moment</div>
+            <div class="text-center text-xl mt-10">
+                No patients records at the moment
+            </div>
         }
     </div>
-
 </div>
+
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<script>
+    $("#searchForm").submit(function (e) {
+        if ($("input#q").val() === "") e.preventDefault()
+    })
+</script>
