@@ -82,11 +82,17 @@
                         <div class="grid md:grid-cols-2 gap-4">
                             <div class="grid sm:grid-cols-[auto_1fr] items-center gap-2 sm:gap-4">
                                 <label class="font-semibold">Mobile No.</label>
-                                @Html.EditorFor(m => m.MobileNumber, new { htmlAttributes = new { @class = "rounded-full px-4 py-2 border border-teal-500 w-full" } })
+                                <div class="flex flex-col">
+                                    @Html.EditorFor(m => m.MobileNumber, new { htmlAttributes = new { @class = "rounded-full px-4 py-2 border border-teal-500 w-full" } })
+                                    @Html.ValidationMessageFor(m => m.MobileNumber, "", new { @class = "text-red-500" })
+                                </div>
                             </div>
                             <div class="grid sm:grid-cols-[auto_1fr] items-center gap-2 sm:gap-4">
                                 <label class="font-semibold">Telephone No.</label>
-                                @Html.EditorFor(m => m.TelephoneNumber, new { htmlAttributes = new { @class = "rounded-full px-4 py-2 border border-teal-500 w-full" } })
+                                <div class="flex flex-col">
+                                    @Html.EditorFor(m => m.TelephoneNumber, new { htmlAttributes = new { @class = "rounded-full px-4 py-2 border border-teal-500 w-full" } })
+                                    @Html.ValidationMessageFor(m => m.TelephoneNumber, "", new { @class = "text-red-500" })
+                                </div>
                             </div>
                         </div>
                     </div>
