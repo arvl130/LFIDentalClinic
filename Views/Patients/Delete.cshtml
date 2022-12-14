@@ -4,12 +4,12 @@
 }
 
 <div>
-    @using (Html.BeginForm("Delete", "Patients", FormMethod.Post, new { @class = "max-w-sm mx-auto mt-36 px-6 py-8 border border-sky-600" }))
+    @using (Html.BeginForm("Delete", "Patients", FormMethod.Post, new { @class = "max-w-fit mx-auto mt-36 px-6 py-8 border border-sky-600" }))
     {
         @Html.AntiForgeryToken()
         <p class="mb-3 text-center">Are you sure you want to delete this patient?</p>
 
-        <div class="max-w-xs mx-auto mb-6">
+        <div class="max-w-fit mx-auto mb-6">
             <div class="grid grid-cols-[5rem_1fr] gap-2">
                 <div class="uppercase text-right font-semibold">@Html.DisplayNameFor(m => m.Id)</div>
                 <div>@Html.DisplayFor(m => m.Id)</div>
@@ -25,7 +25,7 @@
         </div>
 
         <div class="grid grid-cols-2 gap-4">
-            @Html.ActionLink("No", "ViewTreatment", new { id = ViewContext.RouteData.Values["id"], treatmentId = ViewContext.RouteData.Values["treatmentId"] }, new { @class = "border border-sky-600 py-1 text-center hover:bg-sky-600 hover:text-white transition duration-200" })
+            @Html.ActionLink("No", "Details", new { id = ViewContext.RouteData.Values["id"] }, new { @class = "border border-sky-600 py-1 text-center hover:bg-sky-600 hover:text-white transition duration-200" })
             <button type="submit" class="border border-sky-600 py-1 text-center hover:bg-red-600 hover:border-red-600 hover:text-white transition duration-200">Yes</button>
         </div>
     }
